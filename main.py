@@ -3,7 +3,9 @@ from typing import List
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
-import crud, models, schemas
+import crud
+import models
+import schemas
 from database import SessionLocal, engine
 
 # creates the database tables based on the models defined in models.py
@@ -13,7 +15,7 @@ app = FastAPI(title="Employee API")
 
 
 def get_db():
-    db = SessionLocal()  #creates a new database session
+    db = SessionLocal()  # creates a new database session
     try:
         yield db
     finally:
@@ -39,7 +41,7 @@ def read_employee(id_number: int, db: Session = Depends(get_db)):
 
 @app.get("/employees/", response_model=List[schemas.Employee])
 def list_employees(skip: int = 0, limit: int = 10, department: str | None = None, db: Session = Depends(get_db)):
-    return crud.get_employee(db, skip=skip, limit=limit, department=department)
+    return crud.get_employees(db, skip=skip, limit=limit, department=department)
 
 
 @app.delete("/employees/{id_number}", response_model=dict)

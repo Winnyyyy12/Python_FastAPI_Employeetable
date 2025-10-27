@@ -1,5 +1,6 @@
+from typing import List
 from sqlalchemy.orm import Session
-
+from sqlalchemy import text
 import models, schemas
 
 
@@ -13,7 +14,7 @@ def get_employee(db: Session, id_number: int):
 
 # fetch multiple employees
 # skip-number of rows to skip; limit-max row in return;
-def get_employee(db: Session, skip: int = 0, limit: int = 10, department: str | None = None):
+def get_employees(db: Session, skip: int = 0, limit: int = 10, department: str | None = None):
     query = db.query(models.Employee)
     if department:
         query = query.filter(models.Employee.department == department)
